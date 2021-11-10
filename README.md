@@ -1,5 +1,7 @@
 # tagtog-auto-submit
+https://www.tagtog.net/
 
+Auto submit program for tagtog. Submit sentence in documents.
 ## Requirements
 - requirements.txt
 - chromedriver from https://chromedriver.chromium.org/downloads
