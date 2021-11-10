@@ -18,15 +18,14 @@ def split(file_name):
     with open(file_name, 'r', encoding='utf-8') as f:
         sentences = f.readlines()
 
-    print(sentences)
-    # for s in sentences:
-    #     kss.split_sentences(s)
+    data = []
+    for s in sentences:
+        for ss in kss.split_sentences(s):
+            data.append(ss)
 
-        
+    pd.DataFrame(data).to_csv(file_name[:-4] + '.csv', encoding='utf-8')
 
-targets = search('.\\')
+targets = search('./')
 
-print(kss.split_sentences("색소폰(Saxophone, Sax)은 클라리넷과 같이 하나의 리드가 들어있는 취구를 사용하는 목관악기이다."))
-split('색소폰.txt')
-print(targets)
-
+for target in targets:
+    split(target)
