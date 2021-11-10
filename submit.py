@@ -48,13 +48,6 @@ class Crawler:
             if input() == 'c':
                 break
 
-    def print_summary(self) -> None:
-        print('='*5, "Sumamry", '='*5)
-        print("Starting number of comic=", self.conf['number'])
-        print("Url=",self.conf['url'])
-        print("Next button type = ", self.conf['next_button'])
-        print("Comic name = ", self.conf['comic_name'])
-
     def load_chrome_driver(self) -> WebDriver:
         platform_name = platform.system()
         if platform_name == "Windows":
