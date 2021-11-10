@@ -11,13 +11,6 @@ import pandas as pd
 from selenium.webdriver.firefox.webdriver import WebDriver
 
 
-def clickNextButton(driver) -> None:
-    #다음 페이지 버튼 요소 가져오기
-    
-    
-    #페이지 url 저장
-    print('Click!')   
-
 def search(dirname):
     file_names = os.listdir(dirname)
     targets = []
@@ -31,12 +24,9 @@ def search(dirname):
 class Crawler:
     """Manage method of crawling and set environments.
     """
-    def __init__(self, url, path) -> None:
-        self.url = url
-        self.path = path
+    def __init__(self, targets) -> None:
+        self.targets = targets
         self.driver = self.load_chrome_driver()
-        # self.targets = search(path)
-        self.targets = [path]
 
         self.login()
         
@@ -57,13 +47,18 @@ class Crawler:
         
         return driver
 
-    def crawl(self) -> None:
+    def crawl(self):
+        for target in self.targets:
+            self._crawl(target[0], target[1])
+            time.sleep(4)
+
+    def _crawl(self, url, file_name) -> None:
         """Run cralwer
         """        
         # Load synchronized page.
-        self.driver.get(self.url)
+        self.driver.get(url)
 
-        print(f"Completely load {self.url}")
+        print(f"Completely load {url}")
 
         # Save all elements of web page.
         req = self.driver.page_source
@@ -79,24 +74,30 @@ class Crawler:
 
         # Update number and url.
         
-        files = [[pd.read_csv(file_name, encoding='utf-8'), file_name] for file_name in self.targets]
+        file = pd.read_csv(file_name, encoding='utf-8')
 
-        for file in files:
-            for t in file[0]['0']:
-                nextButton = self.driver.find_element_by_xpath("""//a[@id="submit-text"]""")    
-                nextButton.click()
+        for t in file['0']:
+            nextButton = self.driver.find_element_by_xpath("""//a[@id="submit-text"]""")    
+            nextButton.click()
 
-                textarea = self.driver.find_element_by_xpath("""//textarea[@name="textarea-inputdoc"]""")    
-                textarea.send_keys(t)
+            textarea = self.driver.find_element_by_xpath("""//textarea[@name="textarea-inputdoc"]""")    
+            textarea.send_keys(t)
 
-                doc_name = self.driver.find_element_by_xpath("""//input[@id="doc-name-submit"]""")    
-                doc_name.send_keys(file[1][:-4])
+            time.sleep(0.5)
 
-                submit = self.driver.find_element_by_xpath("""//button[@id="submit-doc-button"]""")    
-                submit.click()
+            doc_name = self.driver.find_element_by_xpath("""//input[@id="doc-name-submit"]""")    
+            doc_name.send_keys(file_name[:-4])
 
-                time.sleep(1.8)
+            submit = self.driver.find_element_by_xpath("""//button[@id="submit-doc-button"]""")    
+            submit.click()
 
+            time.sleep(1.8)
 
-crawler = Crawler('https://www.tagtog.net/jay25/Q100/pool%2F%EB%B9%84%EC%98%AC%EB%9D%BC', '비올라.csv')
+targets = [
+    ['https://www.tagtog.net/jay25/Q100/pool%2F%EC%A0%84%EA%B8%B0%20%EA%B8%B0%ED%83%80', '전기 기타.csv'],
+    ['https://www.tagtog.net/jay25/Q100/pool%2F%EC%B2%BC%EB%A1%9C', '첼로.csv'],
+    ['https://www.tagtog.net/jay25/Q100/pool%2F%EC%BD%98%ED%8A%B8%EB%9D%BC%EB%B2%A0%EC%9D%B4%EC%8A%A4', '콘트라베이스.csv']
+]
+
+crawler = Crawler(targets)
 crawler.crawl()
