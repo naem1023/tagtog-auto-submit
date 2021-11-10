@@ -13,10 +13,7 @@ from selenium.webdriver.firefox.webdriver import WebDriver
 
 def clickNextButton(driver) -> None:
     #다음 페이지 버튼 요소 가져오기
-    nextButton = driver.find_element_by_xpath("""//a[@id="submit-text"]""")    
     
-    #다음 페이지 버튼 클릭
-    nextButton.click()
     
     #페이지 url 저장
     print('Click!')   
@@ -86,7 +83,9 @@ class Crawler:
 
         for file in files:
             for t in file[0]['0']:
-                clickNextButton(self.driver)
+                nextButton = self.driver.find_element_by_xpath("""//a[@id="submit-text"]""")    
+                nextButton.click()
+
                 textarea = self.driver.find_element_by_xpath("""//textarea[@name="textarea-inputdoc"]""")    
                 textarea.send_keys(t)
 
@@ -96,8 +95,8 @@ class Crawler:
                 submit = self.driver.find_element_by_xpath("""//button[@id="submit-doc-button"]""")    
                 submit.click()
 
-                time.sleep(1.5)
+                time.sleep(1.8)
 
 
-crawler = Crawler('https://www.tagtog.net/jay25/Q100/pool%2F%EB%B0%94%EC%9D%B4%EC%98%AC%EB%A6%B0', '반도네온.csv')
+crawler = Crawler('https://www.tagtog.net/jay25/Q100/pool%2F%EB%B9%84%EC%98%AC%EB%9D%BC', '비올라.csv')
 crawler.crawl()
