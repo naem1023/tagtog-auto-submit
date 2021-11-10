@@ -38,7 +38,8 @@ class Crawler:
         self.url = url
         self.path = path
         self.driver = self.load_chrome_driver()
-        self.targets = search(path)
+        # self.targets = search(path)
+        self.targets = [path]
 
         self.login()
         
@@ -90,7 +91,7 @@ class Crawler:
                 textarea.send_keys(t)
 
                 doc_name = self.driver.find_element_by_xpath("""//input[@id="doc-name-submit"]""")    
-                doc_name.send_keys(file[1][2:-4])
+                doc_name.send_keys(file[1][:-4])
 
                 submit = self.driver.find_element_by_xpath("""//button[@id="submit-doc-button"]""")    
                 submit.click()
@@ -98,5 +99,5 @@ class Crawler:
                 time.sleep(1.5)
 
 
-crawler = Crawler('https://www.tagtog.net/jay25/Q100/pool%2F%EC%83%89%EC%86%8C%ED%8F%B0', '.\\')
+crawler = Crawler('https://www.tagtog.net/jay25/Q100/pool%2F%EB%B0%94%EB%A1%9C%ED%81%AC%20%EC%9D%8C%EC%95%85', '바로크 음악.csv')
 crawler.crawl()
