@@ -99,5 +99,5 @@ class Crawler:
                 time.sleep(1.5)
 
 
-crawler = Crawler('https://www.tagtog.net/jay25/Q100/pool%2F%EB%B0%94%EB%A1%9C%ED%81%AC%20%EC%9D%8C%EC%95%85', '바로크 음악.csv')
+crawler = Crawler('https://www.tagtog.net/jay25/Q100/pool%2F%EB%B0%94%EC%9D%B4%EC%98%AC%EB%A6%B0', '반도네온.csv')
 crawler.crawl()
